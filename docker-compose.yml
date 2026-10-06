@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: beautyshades-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: beautyshades
+      POSTGRES_PASSWORD: beautyshades
+      POSTGRES_DB: beautyshades
+    ports:
+      - "5433:5432"
+    volumes:
+      - beautyshades_pg:/var/lib/postgresql/data
+
+volumes:
+  beautyshades_pg:

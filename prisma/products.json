@@ -1,0 +1,22 @@
+[
+  {
+    "wooId": 11713,
+    "name": "Photochromic with blue light blocking",
+    "slug": "photochromic-with-blue-light-blocking-11713",
+    "price": 330.0,
+    "compareAt": null,
+    "stock": 8,
+    "image": "https://specswura.com/wp-content/uploads/2026/09/IMG_3947.jpeg",
+    "category": "lenses"
+  },
+  {
+    "wooId": 11709,
+    "name": "Stephan",
+    "slug": "stephan-11709",
+    "price": 160.0,
+    "compareAt": null,
+    "stock": 1,
+    "image": "https://specswura.com/wp-content/uploads/2026/09/IMG_4082.jpeg",
+    "category": "frames"
+  }
+]
