@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin, ORDER_STATUSES } from "@/lib/admin";
 import { formatGhs } from "@/lib/money";
 import { updateOrderStatus } from "../../actions";
+import { AdminButton } from "@/components/AdminButton";
 
 export const dynamic = "force-dynamic";
 
@@ -53,9 +54,13 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
             </option>
           ))}
         </select>
-        <button className="rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white">
+        <AdminButton
+          type="submit"
+          className="rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white hover:bg-ink/90 transition-all shrink-0"
+          loadingText="Updating…"
+        >
           Update status
-        </button>
+        </AdminButton>
       </form>
     </div>
   );

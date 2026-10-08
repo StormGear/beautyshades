@@ -44,6 +44,39 @@ async function main() {
     ),
   );
 
+  const existingAnnouncements = await prisma.announcement.count();
+  if (existingAnnouncements === 0) {
+    await prisma.announcement.createMany({
+      data: [
+        {
+          label: "Special Offer",
+          text: "Flash Offer: Enjoy up to 25% off selected luxury frames & sunglasses this week!",
+          href: "/gallery",
+          cta: "Shop Collection",
+          order: 1,
+          active: true,
+        },
+        {
+          label: "Free Delivery",
+          text: "Complimentary door-to-door delivery across Cape Coast on all orders above GHS 500.",
+          href: "/contact",
+          cta: "Order Now",
+          order: 2,
+          active: true,
+        },
+        {
+          label: "Prescription",
+          text: "Upload your prescription online for precision custom-crafted optical lenses.",
+          href: "/prescription",
+          cta: "Upload Prescription",
+          order: 3,
+          active: true,
+        },
+      ],
+    });
+    console.log("Seeded 3 initial announcements.");
+  }
+
   console.log(`Seeded ${categories.length} categories.`);
 }
 

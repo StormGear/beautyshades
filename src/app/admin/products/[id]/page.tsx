@@ -8,7 +8,10 @@ export const dynamic = "force-dynamic";
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
-  const product = await prisma.product.findUnique({ where: { id } });
+  const product = await prisma.product.findUnique({
+    where: { id },
+    include: { _count: { select: { orderItems: true } } },
+  });
   if (!product) notFound();
 
   return (
@@ -16,6 +19,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
       <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-pink">Catalog</p>
       <h1 className="mt-2 font-serif text-4xl">Edit {product.name}</h1>
       <AdminProductForm
+        canDelete={product._count.orderItems === 0}
         product={{
           id: product.id,
           name: product.name,

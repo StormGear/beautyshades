@@ -14,18 +14,22 @@ export default function ContactPage() {
           <div>
             <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em]">Address</h4>
             <p className="mt-2 text-sm leading-7 text-muted">
-              Accra, Ghana
+              Cape Coast, Ghana
               <br />
               Available for Nationwide Delivery
             </p>
           </div>
           <div>
             <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em]">Direct Line</h4>
-            <p className="mt-2 text-sm text-muted">050 438 8814</p>
+            <p className="mt-2 text-sm text-muted">
+              <a href="tel:0552383203" className="hover:text-ink">0552383203</a>
+            </p>
           </div>
           <div>
             <h4 className="text-[11px] font-semibold uppercase tracking-[0.2em]">Email Inquiries</h4>
-            <p className="mt-2 text-sm text-muted">maryobouragyemang@gmail.com</p>
+            <p className="mt-2 text-sm text-muted">
+              <a href="mailto:lilianababaise@gmail.com" className="hover:text-ink">lilianababaise@gmail.com</a>
+            </p>
           </div>
         </div>
         <ContactForm />

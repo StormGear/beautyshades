@@ -39,7 +39,7 @@ export function CheckoutForm() {
         <input name="email" type="email" required placeholder="Email *" className="underline-input" />
         <input name="phone" required placeholder="Phone *" className="underline-input" />
         <input name="address" required placeholder="Delivery address *" className="underline-input" />
-        <input name="city" defaultValue="Accra" placeholder="City" className="underline-input" />
+        <input name="city" defaultValue="Cape Coast" placeholder="City" className="underline-input" />
         <textarea name="notes" placeholder="Order notes (optional)" rows={3} className="underline-input resize-none" />
         {status === "error" && <p className="text-sm text-red-600">{error}</p>}
         <button

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./Logo";
 import { useCart } from "./CartProvider";
 
@@ -33,14 +34,34 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <button type="button" className="md:hidden" onClick={() => setMenu((v) => !v)} aria-label="Menu">
-            <span className="mb-1.5 block h-px w-6 bg-ink" />
-            <span className="block h-px w-6 bg-ink" />
+
+          {/* Animated Hamburger / Close Button */}
+          <button
+            type="button"
+            className="group relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-blush md:hidden"
+            onClick={() => setMenu((v) => !v)}
+            aria-label={menu ? "Close menu" : "Open menu"}
+            aria-expanded={menu}
+          >
+            <div className="relative flex h-3.5 w-5 flex-col justify-between">
+              <span
+                className={`h-[1.5px] w-5 rounded-full bg-ink transition-all duration-300 ease-in-out ${
+                  menu ? "translate-y-[5.5px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`h-[1.5px] w-5 rounded-full bg-ink transition-all duration-300 ease-in-out ${
+                  menu ? "-translate-y-[5.5px] -rotate-45" : ""
+                }`}
+              />
+            </div>
           </button>
         </div>
+
         <div className="justify-self-center">
           <Logo />
         </div>
+
         <div className="flex items-center justify-end gap-3">
           <button
             type="button"
@@ -66,17 +87,67 @@ export function Header() {
           </Link>
         </div>
       </div>
-      {menu && (
-        <div className="border-t border-black/5 bg-white px-5 py-4 md:hidden">
-          <div className="flex flex-col gap-3 text-sm uppercase tracking-[0.16em]">
-            {nav.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setMenu(false)}>
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+
+      {/* Animated Dropdown Menu */}
+      <AnimatePresence>
+        {menu && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-t border-black/5 bg-white md:hidden"
+          >
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { transition: { staggerChildren: 0.05, delayChildren: 0.04 } },
+                closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+              }}
+              className="flex flex-col gap-3 px-6 py-5 text-sm uppercase tracking-[0.18em]"
+            >
+              {nav.map((item) => (
+                <motion.div
+                  key={item.href}
+                  variants={{
+                    open: { opacity: 1, x: 0 },
+                    closed: { opacity: 0, x: -10 },
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={() => setMenu(false)}
+                    className={`block py-1 transition-colors hover:text-gold ${
+                      pathname === item.href ? "font-semibold text-gold" : "text-ink/80"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                variants={{
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 8 },
+                }}
+                className="pt-2"
+              >
+                <Link
+                  href="/contact"
+                  onClick={() => setMenu(false)}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-gold px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition hover:bg-gold-hover"
+                >
+                  Get In Touch
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

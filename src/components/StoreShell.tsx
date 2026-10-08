@@ -2,18 +2,23 @@
 
 import { usePathname } from "next/navigation";
 import { CartProvider } from "./CartProvider";
-import { Ticker } from "./Ticker";
+import { Ticker, type AnnouncementItem } from "./Ticker";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { CartDrawer } from "./CartDrawer";
 
-export function StoreShell({ children }: { children: React.ReactNode }) {
+interface StoreShellProps {
+  children: React.ReactNode;
+  announcements?: AnnouncementItem[];
+}
+
+export function StoreShell({ children, announcements }: StoreShellProps) {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) return <>{children}</>;
 
   return (
     <CartProvider>
-      <Ticker />
+      <Ticker announcements={announcements} />
       <Header />
       <main>{children}</main>
       <Footer />

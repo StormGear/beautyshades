@@ -8,7 +8,7 @@ export const metadata = { title: "Admin" };
 
 export default async function AdminHomePage() {
   await requireAdmin();
-  const [products, lowStock, orders, pending, revenue, messages, prescriptions] = await Promise.all([
+  const [products, lowStock, orders, pending, revenue, messages, prescriptions, announcements] = await Promise.all([
     prisma.product.count(),
     prisma.product.count({ where: { stock: { gt: 0, lte: 2 } } }),
     prisma.order.count(),
@@ -16,6 +16,7 @@ export default async function AdminHomePage() {
     prisma.order.aggregate({ _sum: { total: true } }),
     prisma.contactMessage.count({ where: { handled: false } }),
     prisma.prescription.count({ where: { handled: false } }),
+    prisma.announcement.count({ where: { active: true } }),
   ]);
 
   const recent = await prisma.order.findMany({
@@ -26,6 +27,7 @@ export default async function AdminHomePage() {
   const cards = [
     { label: "Products", value: products, href: "/admin/products" },
     { label: "Low stock", value: lowStock, href: "/admin/products?stock=low" },
+    { label: "Active announcements", value: announcements, href: "/admin/announcements" },
     { label: "Orders", value: orders, href: "/admin/orders" },
     { label: "Pending orders", value: pending, href: "/admin/orders?status=pending" },
     { label: "New messages", value: messages, href: "/admin/messages" },

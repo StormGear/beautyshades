@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { deleteRecord, setHandled } from "../actions";
+import { AdminButton } from "@/components/AdminButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Messages" };
@@ -32,14 +33,27 @@ export default async function AdminMessagesPage() {
                 <input type="hidden" name="kind" value="message" />
                 <input type="hidden" name="id" value={message.id} />
                 <input type="hidden" name="handled" value={message.handled ? "false" : "true"} />
-                <button className="text-[11px] uppercase tracking-widest text-pink">
+                <AdminButton
+                  type="submit"
+                  variant="text"
+                  className="text-[11px] uppercase tracking-widest text-pink hover:text-ink"
+                  loadingText="Updating…"
+                >
                   {message.handled ? "Mark unread" : "Mark handled"}
-                </button>
+                </AdminButton>
               </form>
               <form action={deleteRecord}>
                 <input type="hidden" name="kind" value="message" />
                 <input type="hidden" name="id" value={message.id} />
-                <button className="text-[11px] uppercase tracking-widest text-red-600">Delete</button>
+                <AdminButton
+                  type="submit"
+                  variant="danger"
+                  className="text-[11px] uppercase tracking-widest text-red-600 hover:text-red-700"
+                  confirmMessage="Are you sure you want to delete this message?"
+                  loadingText="Deleting…"
+                >
+                  Delete
+                </AdminButton>
               </form>
             </div>
           </article>

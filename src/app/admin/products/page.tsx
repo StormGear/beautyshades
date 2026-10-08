@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { formatGhs } from "@/lib/money";
 import { deleteProduct } from "../actions";
+import { AdminButton } from "@/components/AdminButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Products" };
@@ -75,7 +76,15 @@ export default async function AdminProductsPage({
                   {product._count.orderItems === 0 && (
                     <form action={deleteProduct} className="inline">
                       <input type="hidden" name="id" value={product.id} />
-                      <button className="text-[11px] uppercase tracking-widest text-red-600">Delete</button>
+                      <AdminButton
+                        type="submit"
+                        variant="danger"
+                        className="text-[11px] uppercase tracking-widest text-red-600 hover:text-red-700"
+                        confirmMessage="Are you sure you want to delete this frame?"
+                        loadingText="Deleting…"
+                      >
+                        Delete
+                      </AdminButton>
                     </form>
                   )}
                 </td>

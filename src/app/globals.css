@@ -1,21 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --pink: #e85a8c;
-  --pink-soft: #f8d7e3;
-  --ink: #121212;
-  --muted: #6b6570;
-  --bg: #fdfdfd;
-  --blush: #fff5f8;
+  /* Beauty Shades signature logo palette */
+  --gold: #c89345;
+  --gold-hover: #b37a2b;
+  --gold-soft: #f6ecdc;
+  --gold-sparkle: #f2ce7b;
+  --espresso: #16100b;
+  --ink: #18130f;
+  --muted: #73675c;
+  --bg: #fdfbf7;
+  --cream: #f7f1e6;
+
+  /* Semantic aliases */
+  --pink: var(--gold);
+  --pink-soft: var(--gold-soft);
+  --blush: var(--cream);
 }
 
 @theme inline {
-  --color-pink: var(--pink);
-  --color-pink-soft: var(--pink-soft);
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-sparkle: var(--gold-sparkle);
+  --color-espresso: var(--espresso);
+  --color-pink: var(--gold);
+  --color-pink-soft: var(--gold-soft);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-bg: var(--bg);
-  --color-blush: var(--blush);
+  --color-blush: var(--cream);
+  --color-cream: var(--cream);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 }
@@ -90,8 +105,8 @@ body {
 .spinner {
   width: 28px;
   height: 28px;
-  border: 2px solid var(--pink-soft);
-  border-top-color: var(--pink);
+  border: 2px solid var(--gold-soft);
+  border-top-color: var(--gold);
   border-radius: 999px;
   animation: spin-slow 0.8s linear infinite;
 }
@@ -99,25 +114,77 @@ body {
 .underline-input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e2d9cc;
   background: transparent;
   padding: 0.9rem 0;
   outline: none;
   font-size: 0.95rem;
+  transition: border-color 0.2s ease;
 }
 
 .underline-input:focus {
-  border-bottom-color: var(--ink);
+  border-bottom-color: var(--gold);
 }
 
 .product-frame {
-  background: linear-gradient(180deg, #fff 0%, #fff8fb 100%);
-  box-shadow: 0 18px 50px rgba(232, 90, 140, 0.08);
-  border: 8px solid #f7d6e2;
+  background: linear-gradient(180deg, #ffffff 0%, #faf6f0 100%);
+  box-shadow: 0 18px 50px rgba(200, 147, 69, 0.08);
+  border: 8px solid #f3e6d3;
   border-radius: 18px;
   overflow: hidden;
 }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-base {
+  position: relative;
+  overflow: hidden;
+  background-color: #eee7de;
+}
+
+.shimmer-base::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer-sweep 1.6s infinite ease-in-out;
+  content: "";
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+.animate-nav-progress {
+  animation: progress-indeterminate 1.4s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }

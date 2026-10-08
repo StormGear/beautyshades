@@ -88,3 +88,18 @@ model Prescription {
   handled   Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model Announcement {
+  id        String   @id @default(cuid())
+  label     String
+  text      String
+  href      String?
+  cta       String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active])
+}
+

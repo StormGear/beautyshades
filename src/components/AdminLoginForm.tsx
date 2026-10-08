@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
+import { AdminButton } from "@/components/AdminButton";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export function AdminLoginForm() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-[#fff7fa] px-6">
+    <div className="grid min-h-screen place-items-center bg-[#faf6ef] px-6">
       <form onSubmit={onSubmit} className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         <Logo />
         <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-pink">Studio access</p>
@@ -45,13 +46,14 @@ export function AdminLoginForm() {
           autoFocus
         />
         {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-        <button
+        <AdminButton
           type="submit"
-          disabled={pending}
-          className="mt-8 w-full rounded-full bg-ink py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white"
+          loading={pending}
+          className="mt-8 w-full rounded-full bg-ink py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-ink/90 transition-all"
+          loadingText="Signing in…"
         >
-          {pending ? "Signing in…" : "Enter"}
-        </button>
+          Enter
+        </AdminButton>
       </form>
     </div>
   );

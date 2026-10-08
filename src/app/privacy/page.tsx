@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           <li>To send updates about collections with your consent.</li>
           <li>To improve website functionality and security.</li>
         </ul>
-        <p>Last updated: October 2026. Questions: maryobouragyemang@gmail.com.</p>
+        <p>Last updated: October 2026. Questions: <a href="mailto:lilianababaise@gmail.com" className="underline hover:text-ink">lilianababaise@gmail.com</a>.</p>
       </div>
     </article>
   );

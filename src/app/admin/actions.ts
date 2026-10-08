@@ -172,3 +172,53 @@ export async function deleteRecord(formData: FormData) {
     revalidatePath("/admin/prescriptions");
   }
 }
+
+export async function saveAnnouncement(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  const label = String(formData.get("label") ?? "").trim();
+  const text = String(formData.get("text") ?? "").trim();
+  const href = String(formData.get("href") ?? "").trim() || null;
+  const cta = String(formData.get("cta") ?? "").trim() || null;
+  const order = Number(formData.get("order") ?? 0);
+  const active = formData.get("active") === "on" || formData.get("active") === "true";
+
+  if (!label || !text) {
+    throw new Error("Label and text are required for an announcement.");
+  }
+
+  if (id) {
+    await prisma.announcement.update({
+      where: { id },
+      data: { label, text, href, cta, order, active },
+    });
+  } else {
+    await prisma.announcement.create({
+      data: { label, text, href, cta, order, active },
+    });
+  }
+
+  revalidatePath("/admin/announcements");
+  revalidatePath("/");
+  redirect("/admin/announcements");
+}
+
+export async function toggleAnnouncementActive(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  const active = String(formData.get("active") ?? "true") === "true";
+  await prisma.announcement.update({
+    where: { id },
+    data: { active },
+  });
+  revalidatePath("/admin/announcements");
+  revalidatePath("/");
+}
+
+export async function deleteAnnouncement(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  await prisma.announcement.delete({ where: { id } });
+  revalidatePath("/admin/announcements");
+  revalidatePath("/");
+}

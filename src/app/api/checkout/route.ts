@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         email: parsed.data.email,
         phone: parsed.data.phone,
         address: parsed.data.address,
-        city: parsed.data.city || "Accra",
+        city: parsed.data.city || "Cape Coast",
         notes: parsed.data.notes ?? null,
         subtotal,
         delivery,

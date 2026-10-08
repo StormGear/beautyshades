@@ -2,6 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { saveProduct } from "@/app/admin/actions";
 import { ProductImageUpload } from "@/components/ProductImageUpload";
 
+import { AdminButton } from "@/components/AdminButton";
+import { deleteProduct } from "@/app/admin/actions";
+
 type ProductValues = {
   id?: string;
   name?: string;
@@ -15,7 +18,13 @@ type ProductValues = {
   categoryId?: string;
 };
 
-export async function AdminProductForm({ product }: { product?: ProductValues }) {
+export async function AdminProductForm({
+  product,
+  canDelete = false,
+}: {
+  product?: ProductValues;
+  canDelete?: boolean;
+}) {
   const categories = await prisma.category.findMany({ orderBy: { name: "asc" } });
   return (
     <form action={saveProduct} className="mt-8 max-w-2xl space-y-5">
@@ -55,9 +64,27 @@ export async function AdminProductForm({ product }: { product?: ProductValues })
         <input type="checkbox" name="featured" defaultChecked={product?.featured} />
         Feature on homepage
       </label>
-      <button type="submit" className="rounded-full bg-ink px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-        Save product
-      </button>
+      <div className="flex flex-wrap items-center gap-4 pt-2">
+        <AdminButton
+          type="submit"
+          className="rounded-full bg-ink px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-ink/90 transition-all"
+          loadingText="Saving product…"
+        >
+          Save product
+        </AdminButton>
+        {product?.id && canDelete && (
+          <AdminButton
+            type="submit"
+            formAction={deleteProduct}
+            variant="text"
+            className="text-[11px] uppercase tracking-widest text-red-600 hover:text-red-700"
+            confirmMessage="Are you sure you want to delete this frame? This action cannot be undone."
+            loadingText="Deleting…"
+          >
+            Delete frame
+          </AdminButton>
+        )}
+      </div>
     </form>
   );
 }

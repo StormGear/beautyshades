@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { saveCategory } from "../actions";
+import { AdminButton } from "@/components/AdminButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Categories" };
@@ -25,9 +26,13 @@ export default async function AdminCategoriesPage() {
             <input name="slug" defaultValue={category.slug} className="underline-input" />
             <input name="image" required defaultValue={category.image} className="underline-input" />
             <textarea name="description" defaultValue={category.description ?? ""} rows={3} className="underline-input resize-none" />
-            <button className="mt-4 rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white">
+            <AdminButton
+              type="submit"
+              className="mt-4 rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white hover:bg-ink/90"
+              loadingText="Saving…"
+            >
               Save
-            </button>
+            </AdminButton>
           </form>
         ))}
         <form action={saveCategory} className="rounded-2xl bg-white p-6 ring-1 ring-black/5">
@@ -36,9 +41,13 @@ export default async function AdminCategoriesPage() {
           <input name="slug" placeholder="Slug" className="underline-input" />
           <input name="image" required placeholder="Image URL *" className="underline-input" />
           <textarea name="description" placeholder="Description" rows={3} className="underline-input resize-none" />
-          <button className="mt-4 rounded-full bg-pink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white">
+          <AdminButton
+            type="submit"
+            className="mt-4 rounded-full bg-pink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white hover:bg-pink/90"
+            loadingText="Creating…"
+          >
             Create
-          </button>
+          </AdminButton>
         </form>
       </div>
     </div>

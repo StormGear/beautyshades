@@ -3,9 +3,13 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "@/components/Logo";
+import { AdminButton } from "@/components/AdminButton";
+import { useAdminNav } from "@/components/AdminNavContext";
+import { Loader2 } from "lucide-react";
 
 const links = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/orders", label: "Orders" },
@@ -16,6 +20,7 @@ const links = [
 export function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
+  const { pendingHref, navigate } = useAdminNav();
 
   async function logout() {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -30,28 +35,51 @@ export function AdminNav() {
         <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-pink">Admin</p>
         <nav className="mt-6 flex flex-wrap gap-2 lg:flex-col">
           {links.map((link) => {
-            const active = pathname === link.href || (link.href !== "/admin" && pathname.startsWith(link.href));
+            const isPendingTarget = pendingHref === link.href;
+            const isCurrentPath = pathname === link.href || (link.href !== "/admin" && pathname.startsWith(link.href));
+            const active = isPendingTarget || (isCurrentPath && !pendingHref);
+
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-3 py-2 text-[12px] font-medium uppercase tracking-[0.12em] ${
-                  active ? "bg-ink text-white" : "text-ink/70 hover:bg-blush"
+                prefetch={true}
+                onClick={(e) => {
+                  // If standard left click without modifier keys, use our transition
+                  if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+                    e.preventDefault();
+                    navigate(link.href);
+                  }
+                }}
+                className={`group flex items-center justify-between rounded-full px-3.5 py-2 text-[12px] font-medium uppercase tracking-[0.12em] transition-all duration-150 ${
+                  active ? "bg-ink text-white shadow-sm" : "text-ink/70 hover:bg-blush"
                 }`}
               >
-                {link.label}
+                <span>{link.label}</span>
+                {isPendingTarget && (
+                  <Loader2 className="h-3 w-3 animate-spin text-white shrink-0 ml-2" />
+                )}
               </Link>
             );
           })}
         </nav>
       </div>
       <div className="mt-6 flex items-center justify-between gap-3 lg:flex-col lg:items-stretch">
-        <Link href="/" className="text-[11px] uppercase tracking-widest text-muted">
+        <Link
+          href="/"
+          className="text-[11px] uppercase tracking-widest text-muted hover:text-ink transition-colors"
+        >
           View shop
         </Link>
-        <button type="button" onClick={logout} className="text-left text-[11px] uppercase tracking-widest text-muted">
+        <AdminButton
+          type="button"
+          onClick={logout}
+          variant="text"
+          className="text-left text-[11px] uppercase tracking-widest text-muted hover:text-red-600 transition-colors"
+          loadingText="Logging out…"
+        >
           Log out
-        </button>
+        </AdminButton>
       </div>
     </aside>
   );

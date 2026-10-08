@@ -56,7 +56,7 @@ export function CartDrawer() {
             <span>Subtotal</span>
             <span className="font-medium">{formatGhs(subtotal)}</span>
           </div>
-          <p className="mb-4 text-xs text-muted">Complimentary Accra delivery on orders above GHS 500.</p>
+          <p className="mb-4 text-xs text-muted">Complimentary Cape Coast delivery on orders above GHS 500.</p>
           <Link
             href="/checkout"
             onClick={() => setOpen(false)}

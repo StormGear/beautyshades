@@ -12,16 +12,28 @@ export function Footer() {
             style. The brand focuses on glasses that don’t just help people see better—but help them feel
             better.
           </p>
-          <div className="mt-6 flex gap-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/70">
-            <a href="https://tiktok.com/@beautyshades" target="_blank" rel="noreferrer">
-              TikTok
+          <div className="mt-6 flex items-center gap-5 text-ink/70">
+            <a
+              href="https://tiktok.com/@beautyshadesghana"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok"
+              className="inline-flex items-center text-ink/80 transition-colors hover:text-pink"
+            >
+              <svg
+                className="h-5 w-5 fill-current"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 3 15.68 6.34 6.34 0 0 0 9.34 22a6.34 6.34 0 0 0 6.34-6.32V8.92a8.28 8.28 0 0 0 4.84 1.56V7.03a4.83 4.83 0 0 1-.93-.34z" />
+              </svg>
             </a>
-            <a href="https://instagram.com/beautyshades" target="_blank" rel="noreferrer">
+            {/* <a href="https://instagram.com/beautyshades" target="_blank" rel="noreferrer">
               Instagram
             </a>
             <a href="https://snapchat.com/add/beautyshades" target="_blank" rel="noreferrer">
               Snapchat
-            </a>
+            </a> */}
           </div>
         </div>
         <div>
@@ -44,12 +56,17 @@ export function Footer() {
             <li>
               Address:
               <br />
-              Accra
+              Cape Coast
+            </li>
+            <li>
+              Direct Line:
+              <br />
+              <a href="tel:0552383203" className="hover:text-ink">0552383203</a>
             </li>
             <li>
               Email:
               <br />
-              <a href="mailto:maryobouragyemang@gmail.com">maryobouragyemang@gmail.com</a>
+              <a href="mailto:lilianababaise@gmail.com" className="hover:text-ink">lilianababaise@gmail.com</a>
             </li>
             <li>
               Working Days/Hours:
