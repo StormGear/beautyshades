@@ -28,7 +28,7 @@ export function CategoryTiles({ items = [] }: { items?: CategoryTileItem[] }) {
               <h2 className="font-serif text-3xl text-white md:text-4xl">{tile.title}</h2>
               <motion.span
                 whileHover={{ y: -2 }}
-                className="rounded-full bg-white px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink"
+                className="rounded-full bg-white px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-black"
               >
                 {tile.cta}
               </motion.span>
