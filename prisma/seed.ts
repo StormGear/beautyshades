@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+dotenv.config();
+
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
@@ -75,6 +79,77 @@ async function main() {
       ],
     });
     console.log("Seeded 3 initial announcements.");
+  }
+
+  const existingProducts = await prisma.product.count();
+  if (existingProducts === 0) {
+    const categoryMap = new Map(categories.map((c) => [c.slug, c.id]));
+    const sampleProducts = [
+      {
+        name: "Stephan Classic Frame",
+        slug: "stephan-classic-frame",
+        description: "Timeless handcrafted frame designed for everyday comfort and durability.",
+        price: 160.0,
+        compareAt: 200.0,
+        stock: 12,
+        featured: true,
+        image: "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&q=80&w=1200",
+        categorySlug: "frames",
+      },
+      {
+        name: "Aura Tinted Sunglasses",
+        slug: "aura-tinted-sunglasses",
+        description: "UV400 protection with lightweight metallic rim styling.",
+        price: 220.0,
+        compareAt: 260.0,
+        stock: 8,
+        featured: true,
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1200",
+        categorySlug: "sunglasses",
+      },
+      {
+        name: "Photochromic Blue-Light Lenses",
+        slug: "photochromic-blue-light-lenses",
+        description: "Adaptive darkening in sunlight combined with digital blue light filtering.",
+        price: 330.0,
+        compareAt: null,
+        stock: 15,
+        featured: true,
+        image: "https://images.unsplash.com/photo-1483416796010-9483cc70eb90?auto=format&fit=crop&q=80&w=1200",
+        categorySlug: "lenses",
+      },
+      {
+        name: "Anti-Fog Lens Cleaning Kit",
+        slug: "anti-fog-lens-cleaning-kit",
+        description: "Microfiber cloth with gentle, streak-free anti-static solution.",
+        price: 45.0,
+        compareAt: null,
+        stock: 25,
+        featured: false,
+        image: "https://images.unsplash.com/photo-1582142306909-195724d33ffc?auto=format&fit=crop&q=80&w=1200",
+        categorySlug: "accessories",
+      },
+    ];
+
+    for (const p of sampleProducts) {
+      const catId = categoryMap.get(p.categorySlug);
+      if (catId) {
+        await prisma.product.create({
+          data: {
+            name: p.name,
+            slug: p.slug,
+            description: p.description,
+            price: p.price,
+            compareAt: p.compareAt,
+            stock: p.stock,
+            featured: p.featured,
+            image: p.image,
+            categoryId: catId,
+          },
+        });
+      }
+    }
+    console.log(`Seeded ${sampleProducts.length} sample products.`);
   }
 
   console.log(`Seeded ${categories.length} categories.`);
