@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin, ORDER_STATUSES } from "@/lib/admin";
+import { requireAdmin } from "@/lib/admin";
 import { formatGhs } from "@/lib/money";
-import { updateOrderStatus } from "../../actions";
-import { AdminButton } from "@/components/AdminButton";
+import { AdminOrderStatusForm } from "@/components/AdminOrderStatusForm";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +23,7 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
         {order.email} · {order.phone}
       </p>
       <p className="mt-1 text-sm text-muted">
-        {order.address}, {order.city}
+        {order.fulfillment === "pickup" ? "Store pickup" : "Delivery"} · {order.address}, {order.city}
       </p>
       {order.notes && <p className="mt-4 text-sm italic text-muted">{order.notes}</p>}
       <ul className="mt-8 space-y-3 rounded-2xl bg-white p-6 text-sm ring-1 ring-black/5">
@@ -37,31 +36,21 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
           </li>
         ))}
         <li className="flex justify-between border-t border-black/5 pt-3">
-          <span>Delivery</span>
-          <span>{Number(order.delivery) === 0 ? "Complimentary" : formatGhs(Number(order.delivery))}</span>
+          <span>{order.fulfillment === "pickup" ? "Pickup" : "Delivery"}</span>
+          <span>
+            {order.fulfillment === "pickup"
+              ? "In store"
+              : Number(order.delivery) === 0
+                ? "Complimentary"
+                : formatGhs(Number(order.delivery))}
+          </span>
         </li>
         <li className="flex justify-between font-medium">
           <span>Total</span>
           <span>{formatGhs(Number(order.total))}</span>
         </li>
       </ul>
-      <form action={updateOrderStatus} className="mt-6 flex items-center gap-3">
-        <input type="hidden" name="id" value={order.id} />
-        <select name="status" defaultValue={order.status} className="underline-input bg-transparent">
-          {ORDER_STATUSES.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-        <AdminButton
-          type="submit"
-          className="rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white hover:bg-ink/90 transition-all shrink-0"
-          loadingText="Updating…"
-        >
-          Update status
-        </AdminButton>
-      </form>
+      <AdminOrderStatusForm id={order.id} status={order.status} />
     </div>
   );
 }

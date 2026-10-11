@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { adminCookie, isValidAdminToken } from "./admin-session";
+import { ORDER_STATUS_VALUES } from "./validators";
 
 export async function isAdmin() {
   const store = await cookies();
@@ -19,13 +20,6 @@ export function slugify(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-export const ORDER_STATUSES = [
-  "pending",
-  "confirmed",
-  "processing",
-  "shipped",
-  "delivered",
-  "cancelled",
-] as const;
+export const ORDER_STATUSES = ORDER_STATUS_VALUES;
 
 export type OrderStatus = (typeof ORDER_STATUSES)[number];

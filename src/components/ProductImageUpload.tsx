@@ -6,11 +6,20 @@ import { Upload, X, Loader2, Link as LinkIcon } from "lucide-react";
 
 type ProductImageUploadProps = {
   initialImage?: string;
+  value?: string;
+  onChange?: (url: string) => void;
+  error?: string;
 };
 
-export function ProductImageUpload({ initialImage = "" }: ProductImageUploadProps) {
-  const [imageUrl, setImageUrl] = useState(initialImage);
-  const [previewUrl, setPreviewUrl] = useState(initialImage);
+export function ProductImageUpload({ initialImage = "", value, onChange, error }: ProductImageUploadProps) {
+  const [internalUrl, setInternalUrl] = useState(initialImage);
+  const imageUrl = value ?? internalUrl;
+  const [previewUrl, setPreviewUrl] = useState(value ?? initialImage);
+
+  function setImage(url: string) {
+    setInternalUrl(url);
+    onChange?.(url);
+  }
   const [isUploading, startUploadTransition] = useTransition();
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [manualMode, setManualMode] = useState(false);
@@ -33,14 +42,14 @@ export function ProductImageUpload({ initialImage = "" }: ProductImageUploadProp
         setUploadError(res.error);
         setPreviewUrl(imageUrl);
       } else if (res.url) {
-        setImageUrl(res.url);
+        setImage(res.url);
         setPreviewUrl(res.url);
       }
     });
   };
 
   const handleRemove = () => {
-    setImageUrl("");
+    setImage("");
     setPreviewUrl("");
     setUploadError(null);
     if (fileInputRef.current) {
@@ -64,8 +73,7 @@ export function ProductImageUpload({ initialImage = "" }: ProductImageUploadProp
         </button>
       </div>
 
-      {/* Hidden inputs for form submission */}
-      <input type="hidden" name="image" value={imageUrl} required />
+      {!onChange && <input type="hidden" name="image" value={imageUrl} required />}
 
       {manualMode ? (
         <div className="space-y-2">
@@ -73,11 +81,11 @@ export function ProductImageUpload({ initialImage = "" }: ProductImageUploadProp
             type="url"
             value={imageUrl}
             onChange={(e) => {
-              setImageUrl(e.target.value);
+              setImage(e.target.value);
               setPreviewUrl(e.target.value);
             }}
             placeholder="https://example.com/image.jpg"
-            className="underline-input"
+            className="h-10 w-full rounded-lg border border-input bg-transparent px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {previewUrl && (
             <div className="relative mt-2 h-32 w-32 overflow-hidden rounded-xl bg-blush/60 ring-1 ring-black/5">
@@ -175,8 +183,8 @@ export function ProductImageUpload({ initialImage = "" }: ProductImageUploadProp
             className="hidden"
           />
 
-          {uploadError && (
-            <p className="mt-2 text-xs text-red-600">{uploadError}</p>
+          {(uploadError || error) && (
+            <p className="mt-2 text-xs text-destructive">{uploadError || error}</p>
           )}
         </div>
       )}

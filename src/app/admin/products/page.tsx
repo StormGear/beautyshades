@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/admin";
 import { formatGhs } from "@/lib/money";
 import { deleteProduct } from "../actions";
 import { AdminButton } from "@/components/AdminButton";
+import { AdminProductSearch } from "@/components/AdminProductSearch";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Products" };
@@ -38,9 +39,7 @@ export default async function AdminProductsPage({
           Add product
         </Link>
       </div>
-      <form className="mt-6">
-        <input name="q" defaultValue={params.q} placeholder="Search by name" className="underline-input max-w-sm" />
-      </form>
+      <AdminProductSearch query={params.q} />
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white ring-1 ring-black/5">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="bg-blush text-[11px] uppercase tracking-widest text-muted">

@@ -6,6 +6,8 @@ import { Ticker, type AnnouncementItem } from "./Ticker";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { CartDrawer } from "./CartDrawer";
+import { ThemeProvider } from "./ThemeProvider";
+import { WhatsAppFloat } from "./WhatsAppFloat";
 
 interface StoreShellProps {
   children: React.ReactNode;
@@ -17,12 +19,15 @@ export function StoreShell({ children, announcements }: StoreShellProps) {
   if (pathname.startsWith("/admin")) return <>{children}</>;
 
   return (
-    <CartProvider>
-      <Ticker announcements={announcements} />
-      <Header />
-      <main>{children}</main>
-      <Footer />
-      <CartDrawer />
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <Ticker announcements={announcements} />
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <CartDrawer />
+        <WhatsAppFloat />
+      </CartProvider>
+    </ThemeProvider>
   );
 }

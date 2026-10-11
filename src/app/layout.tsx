@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { StoreShell } from "@/components/StoreShell";
 import { prisma } from "@/lib/prisma";
@@ -43,8 +44,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   }
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <Script
+          id="beautyshades-theme"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(location.pathname.indexOf("/admin")===0)return;var t=localStorage.getItem("beautyshades-theme");if(t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})();`,
+          }}
+        />
         <StoreShell announcements={announcements}>{children}</StoreShell>
       </body>
     </html>

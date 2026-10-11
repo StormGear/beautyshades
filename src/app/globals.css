@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   /* Beauty Shades signature logo palette */
@@ -8,14 +12,96 @@
   --gold-sparkle: #f2ce7b;
   --espresso: #16100b;
   --ink: #18130f;
+  --on-ink: #ffffff;
   --muted: #73675c;
   --bg: #fdfbf7;
   --cream: #f7f1e6;
+  --surface: #ffffff;
+  --line: rgb(0 0 0 / 0.05);
+  --line-strong: rgb(0 0 0 / 0.12);
+  --frame-start: #ffffff;
+  --frame-end: #faf6f0;
+  --frame-border: #f3e6d3;
+  --input-line: #e2d9cc;
+  --shimmer: #eee7de;
 
   /* Semantic aliases */
   --pink: var(--gold);
   --pink-soft: var(--gold-soft);
   --blush: var(--cream);
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--on-ink);
+  --secondary: var(--cream);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: var(--gold-soft);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--line-strong);
+  --input: var(--input-line);
+  --ring: var(--gold);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+html.dark {
+  color-scheme: dark;
+  --gold: #d4a45a;
+  --gold-hover: #e0b56e;
+  --gold-soft: #3a2d1c;
+  --gold-sparkle: #f2ce7b;
+  --espresso: #f5efe6;
+  --ink: #f3ece4;
+  --on-ink: #16100b;
+  --muted: #b8aa9a;
+  --bg: #12100e;
+  --cream: #1c1814;
+  --surface: #1c1814;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --frame-start: #221c16;
+  --frame-end: #1a1612;
+  --frame-border: #3a3126;
+  --input-line: #4a4034;
+  --shimmer: #2a241c;
+  --pink: var(--gold);
+  --pink-soft: var(--gold-soft);
+  --blush: var(--cream);
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--on-ink);
+  --secondary: var(--cream);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: var(--gold-soft);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: var(--line-strong);
+  --input: var(--input-line);
+  --ring: var(--gold);
 }
 
 @theme inline {
@@ -27,12 +113,58 @@
   --color-pink: var(--gold);
   --color-pink-soft: var(--gold-soft);
   --color-ink: var(--ink);
+  --color-on-ink: var(--on-ink);
   --color-muted: var(--muted);
   --color-bg: var(--bg);
   --color-blush: var(--cream);
   --color-cream: var(--cream);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
+  --font-heading: var(--font-playfair);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+html {
+  color-scheme: light;
 }
 
 html,
@@ -114,8 +246,9 @@ body {
 .underline-input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid #e2d9cc;
+  border-bottom: 1px solid var(--input-line);
   background: transparent;
+  color: inherit;
   padding: 0.9rem 0;
   outline: none;
   font-size: 0.95rem;
@@ -127,9 +260,9 @@ body {
 }
 
 .product-frame {
-  background: linear-gradient(180deg, #ffffff 0%, #faf6f0 100%);
+  background: linear-gradient(180deg, var(--frame-start) 0%, var(--frame-end) 100%);
   box-shadow: 0 18px 50px rgba(200, 147, 69, 0.08);
-  border: 8px solid #f3e6d3;
+  border: 8px solid var(--frame-border);
   border-radius: 18px;
   overflow: hidden;
 }
@@ -150,7 +283,7 @@ body {
 .shimmer-base {
   position: relative;
   overflow: hidden;
-  background-color: #eee7de;
+  background-color: var(--shimmer);
 }
 
 .shimmer-base::after {
@@ -187,4 +320,10 @@ body {
 
 .animate-nav-progress {
   animation: progress-indeterminate 1.4s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 }

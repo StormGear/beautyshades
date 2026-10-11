@@ -11,8 +11,8 @@ export function CartDrawer() {
   return (
     <div className="fixed inset-0 z-50">
       <button className="absolute inset-0 bg-ink/30 backdrop-blur-[2px]" onClick={() => setOpen(false)} aria-label="Close bag" />
-      <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-black/5 px-6 py-5">
+      <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-surface shadow-2xl">
+        <div className="flex items-center justify-between border-b border-line px-6 py-5">
           <h2 className="font-serif text-2xl">Your Bag</h2>
           <button onClick={() => setOpen(false)} className="text-sm uppercase tracking-widest">
             Close
@@ -32,7 +32,7 @@ export function CartDrawer() {
                     <p className="truncate text-sm font-medium">{item.name}</p>
                     <p className="mt-1 text-sm text-muted">{formatGhs(item.price)}</p>
                     <div className="mt-3 flex items-center gap-3">
-                      <div className="flex items-center rounded-full border border-black/10">
+                      <div className="flex items-center rounded-full border border-line-strong">
                         <button className="px-3 py-1" onClick={() => setQty(item.productId, item.quantity - 1)} disabled={pending}>
                           −
                         </button>
@@ -51,16 +51,16 @@ export function CartDrawer() {
             </ul>
           )}
         </div>
-        <div className="border-t border-black/5 px-6 py-5">
+        <div className="border-t border-line px-6 py-5">
           <div className="mb-4 flex items-center justify-between text-sm">
             <span>Subtotal</span>
             <span className="font-medium">{formatGhs(subtotal)}</span>
           </div>
-          <p className="mb-4 text-xs text-muted">Complimentary Cape Coast delivery on orders above GHS 500.</p>
+          <p className="mb-4 text-xs text-muted">Choose delivery or store pickup at checkout. Complimentary Cape Coast delivery above GHS 500.</p>
           <Link
             href="/checkout"
             onClick={() => setOpen(false)}
-            className="block rounded-full bg-ink py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-white"
+            className="block rounded-full bg-ink py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-on-ink"
           >
             Checkout
           </Link>

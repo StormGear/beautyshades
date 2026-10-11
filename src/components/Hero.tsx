@@ -36,7 +36,7 @@ export function Hero({ slides = [] }: { slides?: HeroSlide[] }) {
   const currentSlide = displaySlides[Math.min(index, displaySlides.length - 1)];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#faf4ea] to-white">
+    <section className="relative overflow-hidden bg-gradient-to-b from-surface via-cream to-surface">
       <div className="mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-10 px-6 py-10 lg:grid-cols-2">
         <div className="max-w-xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-gold">New Collection</p>
@@ -60,7 +60,7 @@ export function Hero({ slides = [] }: { slides?: HeroSlide[] }) {
         </div>
 
         <div className="relative mx-auto w-full max-w-xl">
-          <div className="hero-polaroid relative ml-auto aspect-[5/6] w-[92%] overflow-hidden rounded-[28px] bg-white p-3 shadow-[0_30px_80px_rgba(0,0,0,0.08)] ring-1 ring-black/5">
+          <div className="hero-polaroid relative ml-auto aspect-[5/6] w-[92%] overflow-hidden rounded-[28px] bg-surface p-3 shadow-[0_30px_80px_rgba(0,0,0,0.08)] ring-1 ring-line">
             <div className="relative h-full overflow-hidden rounded-[20px] bg-blush">
               <AnimatePresence mode="wait">
                 <motion.div

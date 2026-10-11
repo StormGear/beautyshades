@@ -2,29 +2,33 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Logo } from "@/components/Logo";
-import { AdminButton } from "@/components/AdminButton";
+import { adminLoginSchema, type AdminLoginValues } from "@/lib/validators";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export function AdminLoginForm() {
   const router = useRouter();
   const search = useSearchParams();
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [pending, setPending] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const form = useForm<AdminLoginValues>({
+    resolver: zodResolver(adminLoginSchema),
+    defaultValues: { password: "" },
+  });
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setPending(true);
-    setError("");
+  async function onSubmit(values: AdminLoginValues) {
+    setServerError("");
     const res = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify(values),
     });
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      setError(body.error ?? "Could not sign in.");
-      setPending(false);
+      setServerError(body.error ?? "Could not sign in.");
       return;
     }
     router.push(search.get("next") || "/admin");
@@ -33,27 +37,32 @@ export function AdminLoginForm() {
 
   return (
     <div className="grid min-h-screen place-items-center bg-[#faf6ef] px-6">
-      <form onSubmit={onSubmit} className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-sm ring-1 ring-black/5">
         <Logo />
         <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-pink">Studio access</p>
         <h1 className="mt-2 font-serif text-4xl">Admin</h1>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="underline-input mt-8"
-          autoFocus
-        />
-        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-        <AdminButton
-          type="submit"
-          loading={pending}
-          className="mt-8 w-full rounded-full bg-ink py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white hover:bg-ink/90 transition-all"
-          loadingText="Signing in…"
-        >
-          Enter
-        </AdminButton>
+        <FieldGroup className="mt-8">
+          <Field data-invalid={!!form.formState.errors.password || undefined}>
+            <FieldLabel htmlFor="admin-password">Password</FieldLabel>
+            <Input
+              id="admin-password"
+              type="password"
+              autoFocus
+              autoComplete="current-password"
+              aria-invalid={!!form.formState.errors.password}
+              {...form.register("password")}
+            />
+            <FieldError errors={[form.formState.errors.password]} />
+          </Field>
+          {serverError && <p className="text-sm text-destructive">{serverError}</p>}
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="h-11 w-full rounded-full text-[11px] font-semibold uppercase tracking-[0.18em]"
+          >
+            {form.formState.isSubmitting ? "Signing in…" : "Enter"}
+          </Button>
+        </FieldGroup>
       </form>
     </div>
   );

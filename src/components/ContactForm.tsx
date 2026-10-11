@@ -1,57 +1,79 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactSchema, type ContactValues } from "@/lib/validators";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "saving" | "ok" | "error">("idle");
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
+  const [ok, setOk] = useState(false);
+  const form = useForm<ContactValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: { name: "", email: "", message: "" },
+    mode: "onBlur",
+  });
+  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP ?? "233504388814";
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
-    setStatus("saving");
+  async function onSubmit(values: ContactValues) {
+    setOk(false);
+    setServerError("");
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(values),
     });
     if (!res.ok) {
       const body = await res.json();
-      setError(body.error ?? "Something went wrong.");
-      setStatus("error");
+      setServerError(body.error ?? "Something went wrong.");
       return;
     }
-    setStatus("ok");
+    setOk(true);
     form.reset();
   }
 
-  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP ?? "233504388814";
-
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
-      <input name="name" required placeholder="Your Name *" className="underline-input" />
-      <input name="email" type="email" required placeholder="Email Address *" className="underline-input" />
-      <textarea name="message" required placeholder="How can we help you? *" rows={4} className="underline-input resize-none" />
-      {status === "error" && <p className="text-sm text-red-600">{error}</p>}
-      {status === "ok" && <p className="text-sm text-emerald-700">Saved. We’ll reply shortly — or continue on WhatsApp.</p>}
-      <div className="flex flex-wrap gap-3">
-        <button
-          type="submit"
-          disabled={status === "saving"}
-          className="rounded-full bg-ink px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white"
-        >
-          {status === "saving" ? "Sending…" : "Send via WhatsApp"}
-        </button>
-        <a
-          href={`https://wa.me/${whatsapp}`}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-black/15 px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em]"
-        >
-          Open chat
-        </a>
-      </div>
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Field data-invalid={!!form.formState.errors.name || undefined}>
+          <FieldLabel htmlFor="contact-name">Your name</FieldLabel>
+          <Input id="contact-name" autoComplete="name" aria-invalid={!!form.formState.errors.name} {...form.register("name")} />
+          <FieldError errors={[form.formState.errors.name]} />
+        </Field>
+        <Field data-invalid={!!form.formState.errors.email || undefined}>
+          <FieldLabel htmlFor="contact-email">Email address</FieldLabel>
+          <Input id="contact-email" type="email" autoComplete="email" aria-invalid={!!form.formState.errors.email} {...form.register("email")} />
+          <FieldError errors={[form.formState.errors.email]} />
+        </Field>
+        <Field data-invalid={!!form.formState.errors.message || undefined}>
+          <FieldLabel htmlFor="contact-message">How can we help you?</FieldLabel>
+          <Textarea id="contact-message" rows={4} aria-invalid={!!form.formState.errors.message} {...form.register("message")} />
+          <FieldError errors={[form.formState.errors.message]} />
+        </Field>
+        {serverError && <p className="text-sm text-destructive">{serverError}</p>}
+        {ok && <p className="text-sm text-emerald-700">Saved. We’ll reply shortly — or continue on WhatsApp.</p>}
+        <div className="flex flex-wrap gap-3">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="h-11 rounded-full px-8 text-[11px] font-semibold uppercase tracking-[0.18em]"
+          >
+            {form.formState.isSubmitting ? "Sending…" : "Send via WhatsApp"}
+          </Button>
+          <a
+            href={`https://wa.me/${whatsapp}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-11 items-center rounded-full border border-input px-8 text-[11px] font-semibold uppercase tracking-[0.18em] transition hover:bg-muted/40"
+          >
+            Open chat
+          </a>
+        </div>
+      </FieldGroup>
     </form>
   );
 }

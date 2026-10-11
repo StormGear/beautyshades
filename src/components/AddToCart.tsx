@@ -9,7 +9,7 @@ export function AddToCart({ productId, disabled }: { productId: string; disabled
 
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <div className="flex items-center rounded-full border border-black/15">
+      <div className="flex items-center rounded-full border border-line-strong">
         <button type="button" className="px-4 py-2" onClick={() => setQty((q) => Math.max(1, q - 1))}>
           −
         </button>

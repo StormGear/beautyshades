@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-black/5 bg-white">
+    <footer className="mt-24 border-t border-line bg-surface">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <Logo variant="badge" />
@@ -76,7 +76,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t border-black/5 px-6 py-4 text-[11px] uppercase tracking-[0.16em] text-muted">
+      <div className="flex items-center justify-between border-t border-line px-6 py-4 text-[11px] uppercase tracking-[0.16em] text-muted">
         <span>©2026, Beauty Shades</span>
         <span>All rights reserved</span>
       </div>

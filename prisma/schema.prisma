@@ -40,9 +40,10 @@ model Order {
   email     String
   name      String
   phone     String
-  address   String
-  city      String      @default("Accra")
-  notes     String?
+  address     String
+  city        String      @default("Accra")
+  fulfillment String      @default("delivery")
+  notes       String?
   subtotal  Decimal     @db.Decimal(10, 2)
   delivery  Decimal     @db.Decimal(10, 2)
   total     Decimal     @db.Decimal(10, 2)

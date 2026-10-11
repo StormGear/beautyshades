@@ -31,7 +31,7 @@ export default async function GalleryPage({
   const active = categorySlug ?? "all";
 
   return (
-    <div className="bg-gradient-to-b from-[#fff7fa] to-white pb-20">
+    <div className="bg-gradient-to-b from-cream to-bg pb-20">
       <div className="mx-auto max-w-7xl px-6 pt-16 text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-pink">The Collection</p>
         <h1 className="mt-3 font-serif text-5xl md:text-6xl">All Frames.</h1>
@@ -104,7 +104,7 @@ function FilterChip({
     <Link
       href={href}
       className={`rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] ${
-        active ? "bg-ink text-white" : "bg-white text-ink ring-1 ring-black/10"
+        active ? "bg-ink text-on-ink" : "bg-surface text-ink ring-1 ring-line-strong"
       }`}
     >
       {children}

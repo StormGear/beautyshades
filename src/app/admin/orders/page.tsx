@@ -42,6 +42,7 @@ export default async function AdminOrdersPage({
           <thead className="bg-blush text-[11px] uppercase tracking-widest text-muted">
             <tr>
               <th className="px-4 py-3">Customer</th>
+              <th className="px-4 py-3">Fulfillment</th>
               <th className="px-4 py-3">Items</th>
               <th className="px-4 py-3">Total</th>
               <th className="px-4 py-3">Status</th>
@@ -57,6 +58,7 @@ export default async function AdminOrdersPage({
                   </Link>
                   <p className="text-xs text-muted">{order.phone}</p>
                 </td>
+                <td className="px-4 py-3 capitalize">{order.fulfillment}</td>
                 <td className="px-4 py-3">{order.items.reduce((sum, item) => sum + item.quantity, 0)}</td>
                 <td className="px-4 py-3">{formatGhs(Number(order.total))}</td>
                 <td className="px-4 py-3 capitalize">{order.status}</td>

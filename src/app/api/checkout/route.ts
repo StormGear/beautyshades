@@ -1,23 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { readCart, writeCart } from "@/lib/cart";
+import { deliveryFee, isFulfillment, PICKUP_ADDRESS, PICKUP_CITY } from "@/lib/fulfillment";
+import { checkoutSchema } from "@/lib/validators";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(8),
-  address: z.string().min(5),
-  city: z.string().optional(),
-  notes: z.string().optional(),
-});
 
 export async function POST(request: Request) {
   const json = await request.json();
-  const parsed = schema.safeParse(json);
+  const parsed = checkoutSchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: "Please complete every required field." }, { status: 400 });
   }
+
+  const fulfillment = isFulfillment(parsed.data.fulfillment) ? parsed.data.fulfillment : "delivery";
 
   const lines = await readCart();
   if (lines.length === 0) {
@@ -52,7 +46,7 @@ export async function POST(request: Request) {
   }
 
   const subtotal = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-  const delivery = subtotal >= 500 ? 0 : 30;
+  const delivery = deliveryFee(subtotal, fulfillment);
   const total = subtotal + delivery;
 
   const order = await prisma.$transaction(async (tx) => {
@@ -61,8 +55,9 @@ export async function POST(request: Request) {
         name: parsed.data.name,
         email: parsed.data.email,
         phone: parsed.data.phone,
-        address: parsed.data.address,
-        city: parsed.data.city || "Cape Coast",
+        fulfillment,
+        address: fulfillment === "pickup" ? PICKUP_ADDRESS : parsed.data.address!.trim(),
+        city: fulfillment === "pickup" ? PICKUP_CITY : parsed.data.city || PICKUP_CITY,
         notes: parsed.data.notes ?? null,
         subtotal,
         delivery,

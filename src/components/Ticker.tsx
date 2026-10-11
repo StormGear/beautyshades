@@ -43,7 +43,7 @@ export function Ticker({ announcements }: TickerProps) {
 
   return (
     <div
-      className="relative overflow-hidden border-b border-black/5 bg-white"
+      className="relative overflow-hidden border-b border-line bg-surface"
       role="region"
       aria-label="Announcement ticker"
     >

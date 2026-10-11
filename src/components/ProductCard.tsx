@@ -64,14 +64,14 @@ export function ProductCard({ product, layout = "grid" }: ProductCardProps) {
       transition={{ duration: 0.5 }}
       className="group"
     >
-      <Link href={`/product/${product.slug}`} className="block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
+      <Link href={`/product/${product.slug}`} className="block overflow-hidden rounded-2xl bg-surface shadow-sm ring-1 ring-line">
         <div className="relative aspect-[4/5] bg-blush">
           <img
             src={product.image}
             alt={product.name}
             className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
           />
-          <div className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium shadow-sm">
+          <div className="absolute right-3 top-3 rounded-full bg-surface/90 px-3 py-1 text-[11px] font-medium shadow-sm">
             {formatGhs(Number(product.price))}
           </div>
           {soldOut && (

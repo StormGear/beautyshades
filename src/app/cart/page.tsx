@@ -20,7 +20,7 @@ export default function CartPage() {
         </p>
       ) : (
         <>
-          <ul className="mt-10 divide-y divide-black/5">
+          <ul className="mt-10 divide-y divide-line">
             {items.map((item) => (
               <li key={item.productId} className="flex gap-5 py-6">
                 <div className="relative h-28 w-24 overflow-hidden rounded-lg bg-blush">
@@ -46,7 +46,7 @@ export default function CartPage() {
           </ul>
           <div className="mt-8 flex items-center justify-between">
             <p>Subtotal {formatGhs(subtotal)}</p>
-            <Link href="/checkout" className="rounded-full bg-ink px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+            <Link href="/checkout" className="rounded-full bg-ink px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-on-ink">
               Checkout
             </Link>
           </div>

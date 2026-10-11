@@ -18,7 +18,9 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-pink">Thank you</p>
       <h1 className="mt-3 font-serif text-5xl">Order confirmed.</h1>
       <p className="mt-4 text-sm text-muted">
-        We&apos;ll be in touch on {order.phone} to confirm delivery to {order.city}.
+        {order.fulfillment === "pickup"
+          ? `We'll be in touch on ${order.phone} when your order is ready for pickup at ${order.address}.`
+          : `We'll be in touch on ${order.phone} to confirm delivery to ${order.city}.`}
       </p>
       <ul className="mt-10 space-y-3 text-left text-sm">
         {order.items.map((item) => (

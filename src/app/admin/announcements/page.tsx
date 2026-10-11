@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
-import { saveAnnouncement, toggleAnnouncementActive, deleteAnnouncement } from "../actions";
+import { toggleAnnouncementActive, deleteAnnouncement } from "../actions";
 import { AdminButton } from "@/components/AdminButton";
+import { AdminAnnouncementForm } from "@/components/AdminAnnouncementForm";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Announcements" };
@@ -90,86 +91,7 @@ export default async function AdminAnnouncementsPage() {
                   </div>
                 </div>
 
-                {/* Edit Form */}
-                <form action={saveAnnouncement} className="mt-5 space-y-4">
-                  <input type="hidden" name="id" value={item.id} />
-
-                  <div className="grid gap-4 sm:grid-cols-3">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Badge Label</label>
-                      <input
-                        name="label"
-                        required
-                        defaultValue={item.label}
-                        placeholder="e.g. Special Offer"
-                        className="underline-input"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Display Order</label>
-                      <input
-                        name="order"
-                        type="number"
-                        defaultValue={item.order}
-                        className="underline-input"
-                      />
-                    </div>
-                    <div className="flex items-center pt-5">
-                      <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-ink">
-                        <input
-                          type="checkbox"
-                          name="active"
-                          defaultChecked={item.active}
-                          className="h-4 w-4 rounded accent-ink"
-                        />
-                        Active on ticker
-                      </label>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Message Text</label>
-                    <textarea
-                      name="text"
-                      required
-                      defaultValue={item.text}
-                      rows={2}
-                      placeholder="e.g. Enjoy up to 25% off selected frames this week!"
-                      className="underline-input resize-none"
-                    />
-                  </div>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Link URL (Optional)</label>
-                      <input
-                        name="href"
-                        defaultValue={item.href ?? ""}
-                        placeholder="e.g. /gallery or /contact"
-                        className="underline-input"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Button CTA (Optional)</label>
-                      <input
-                        name="cta"
-                        defaultValue={item.cta ?? ""}
-                        placeholder="e.g. Shop Collection"
-                        className="underline-input"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end pt-2">
-                    <AdminButton
-                      type="submit"
-                      className="rounded-full bg-ink px-5 py-2 text-[11px] font-semibold uppercase tracking-widest text-white transition hover:bg-ink/80"
-                      loadingText="Updating…"
-                    >
-                      Update Announcement
-                    </AdminButton>
-                  </div>
-                </form>
+                <AdminAnnouncementForm announcement={item} />
               </div>
             ))
           )}
@@ -184,78 +106,7 @@ export default async function AdminAnnouncementsPage() {
               Add a new announcement banner item to the live top ticker.
             </p>
 
-            <form action={saveAnnouncement} className="mt-6 space-y-4">
-              <div>
-                <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Badge Label *</label>
-                <input
-                  name="label"
-                  required
-                  placeholder="e.g. Flash Offer"
-                  className="underline-input"
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Message Text *</label>
-                <textarea
-                  name="text"
-                  required
-                  rows={3}
-                  placeholder="e.g. Complimentary nationwide delivery on orders over GHS 500."
-                  className="underline-input resize-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Link URL</label>
-                  <input
-                    name="href"
-                    placeholder="/gallery"
-                    className="underline-input"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Button CTA</label>
-                  <input
-                    name="cta"
-                    placeholder="Shop Now"
-                    className="underline-input"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 items-center gap-3 pt-2">
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Sort Order</label>
-                  <input
-                    name="order"
-                    type="number"
-                    defaultValue={announcements.length + 1}
-                    className="underline-input"
-                  />
-                </div>
-                <div className="flex items-center pt-4">
-                  <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-ink">
-                    <input
-                      type="checkbox"
-                      name="active"
-                      defaultChecked
-                      className="h-4 w-4 rounded accent-ink"
-                    />
-                    Active now
-                  </label>
-                </div>
-              </div>
-
-              <AdminButton
-                type="submit"
-                className="mt-4 w-full rounded-full bg-pink px-5 py-2.5 text-[11px] font-semibold uppercase tracking-widest text-white shadow-sm transition hover:bg-pink/90"
-                loadingText="Creating…"
-              >
-                Create Announcement
-              </AdminButton>
-            </form>
+            <AdminAnnouncementForm compact nextOrder={announcements.length + 1} />
           </div>
         </div>
       </div>

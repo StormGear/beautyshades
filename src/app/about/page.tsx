@@ -39,7 +39,7 @@ export default async function AboutPage() {
           can find the perfect pair. Whether you&apos;re looking for trendy fashion glasses or everyday
           eyewear, Beauty Shades is committed to delivering products that enhance both your vision and your style.
         </p>
-        <blockquote className="mt-8 border-t border-black/10 pt-6 italic text-muted">
+        <blockquote className="mt-8 border-t border-line-strong pt-6 italic text-muted">
           &quot;Our goal is simple: to make stylish, reliable eyewear accessible to everyone.&quot;
         </blockquote>
       </div>

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./Logo";
 import { useCart } from "./CartProvider";
+import { ThemeToggle } from "./ThemeToggle";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -20,7 +21,7 @@ export function Header() {
   const [menu, setMenu] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur-md">
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-4">
         <div className="flex items-center">
           <nav className="hidden items-center gap-7 text-[12px] font-medium uppercase tracking-[0.16em] text-ink/70 md:flex">
@@ -63,6 +64,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center justify-end gap-3">
+          <ThemeToggle />
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -81,7 +83,7 @@ export function Header() {
           </button>
           <Link
             href="/contact"
-            className="hidden rounded-full border border-black/15 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition hover:border-ink hover:bg-ink hover:text-white sm:inline-flex"
+            className="hidden rounded-full border border-line-strong px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition hover:border-ink hover:bg-ink hover:text-on-ink sm:inline-flex"
           >
             Get In Touch
           </Link>
@@ -96,7 +98,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-black/5 bg-white md:hidden"
+            className="overflow-hidden border-t border-line bg-surface md:hidden"
           >
             <motion.div
               initial="closed"
