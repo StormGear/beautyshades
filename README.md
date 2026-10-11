@@ -1,6 +1,6 @@
 # BeautyShades
 
-An Accra eyewear shop for frames, sunglasses, photochromic lenses, and lens care.
+An online eyewear shop for frames, sunglasses, photochromic lenses, and lens care.
 
 
 ## Stack
@@ -43,4 +43,3 @@ Open [http://localhost:3000](http://localhost:3000). If port 3000 is already in 
 - Privacy, about, order confirmation
 - Admin portal at `/admin` (password in `.env` as `ADMIN_PASSWORD`)
 
-Default local login: **specswura-admin**
