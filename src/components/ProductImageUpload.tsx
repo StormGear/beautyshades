@@ -149,9 +149,8 @@ export function ProductImageUpload({ initialImage = "", value, onChange, error }
           ) : (
             <div
               onClick={() => fileInputRef.current?.click()}
-              className={`group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-black/15 bg-blush/20 p-8 transition-colors hover:border-pink/50 hover:bg-blush/40 ${
-                isUploading ? "pointer-events-none opacity-60" : ""
-              }`}
+              className={`group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-black/15 bg-blush/20 p-8 transition-colors hover:border-pink/50 hover:bg-blush/40 ${isUploading ? "pointer-events-none opacity-60" : ""
+                }`}
             >
               {isUploading ? (
                 <div className="flex flex-col items-center">
